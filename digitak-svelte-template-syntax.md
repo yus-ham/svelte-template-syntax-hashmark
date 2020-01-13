@@ -1,7 +1,7 @@
 ---
-title: Template syntax
+title: Svelte Template syntax -- ucup
 ---
-
+Hanya menyeragamkan prefix dengan `#` dan masih bisa juga kalau mau memakai syntak bawaan svelte
 
 ### Tags
 
