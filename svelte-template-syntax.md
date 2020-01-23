@@ -3,6 +3,30 @@ title: Svelte Template syntax -- ucup
 ---
 Hanya menyeragamkan prefix dengan `#` dan masih bisa juga kalau mau memakai syntak bawaan svelte
 
+### Pre-requisities:
+Tambahkan preprocessor svelte di bagian setting plug-in rollup
+```javascript
+  svelte({
+    // ...
+    preprocess: {
+        markup: ({ content }) => ({
+            code: content
+              .replace(/\{#else if /g, '{:else if ')
+              .replace(/\{#elseif /g, '{:else if ')
+              .replace(/\{#else\}/g, '{:else}')
+              .replace(/\{#endif\}/g, '{/if}')
+              .replace(/\{#endeach\}/g, '{/each}')
+              .replace(/\{#then /g, '{:then ')
+              .replace(/\{#catch /g, '{:catch ')
+              .replace(/\{#endawait /g, '{/await}')
+              .replace(/\{#html /g, '{/@html ')
+              .replace(/\{#debug /g, '{/@debug ')
+        })
+      },
+  }),
+  // ...
+```
+
 ### Tags
 
 ---
