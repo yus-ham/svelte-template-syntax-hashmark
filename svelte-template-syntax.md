@@ -1,7 +1,8 @@
 ---
-title: Svelte Template syntax -- ucup
+title: Svelte Template syntax - Customized
 ---
-Hanya menyeragamkan prefix dengan `#` dan masih bisa juga kalau mau memakai syntak bawaan svelte
+Hanya ingin menyeragamkan prefix dengan `#` dan masih bisa juga kalau mau memakai syntak bawaan svelte
+
 
 ### Pre-requisities:
 Tambahkan preprocessor svelte di bagian setting plug-in rollup
@@ -170,7 +171,6 @@ Comments beginning with `svelte-ignore` disable warnings for the next block of m
 {#if expression}...{#endif}
 ```
 ```sv
-{#if expression}...{#else if expression}...{#endif}
 {#if expression}...{#elseif expression}...{#endif}
 ```
 ```sv
@@ -189,12 +189,12 @@ Content that is conditionally rendered can be wrapped in an if block.
 
 ---
 
-Additional conditions can be added with `{#else if expression}`, optionally ending in an `{#else}` clause.
+Additional conditions can be added with `{#elseif expression}`, optionally ending in an `{#else}` clause.
 
 ```html
 {#if porridge.temperature > 100}
 	<p>too hot!</p>
-{#else if 80 > porridge.temperature}
+{#elseif 80 > porridge.temperature}
 	<p>too cold!</p>
 {#else}
 	<p>just right!</p>
