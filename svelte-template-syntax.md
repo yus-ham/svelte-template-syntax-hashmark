@@ -20,8 +20,8 @@ Tambahkan preprocessor svelte di bagian setting plug-in rollup
               .replace(/\{#then /g, '{:then ')
               .replace(/\{#catch /g, '{:catch ')
               .replace(/\{#endawait\}/g, '{/await}')
-              .replace(/\{#html /g, '{/@html ')
-              .replace(/\{#debug /g, '{/@debug ')
+              .replace(/\{#html /g, '{@html ')
+              .replace(/\{#debug /g, '{@debug ')
         })
       },
   }),
