@@ -27,6 +27,8 @@ Tambahkan preprocessor svelte di bagian setting plug-in rollup
             [/{@endawait}/gim, '{/await}'],
             [/{@key /gim, '{#key '],
             [/{@endkey}/gim, '{/key}'],
+            [/{@reload /gim, '{#key '],
+            [/{@endreload}/gim, '{/key}'],
 	]
     }),
   }),
