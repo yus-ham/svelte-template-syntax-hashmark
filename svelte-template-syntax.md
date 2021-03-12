@@ -387,22 +387,23 @@ If conversely you only want to show the error state, you can omit the `then` blo
 {@endawait}
 ```
 
-### {@key ...}
+### <s>{@key ...}</s> use {@reload} instead
+### {@reload ...} alias of <s>{@key}</s>
 
 ```sv
-{@key expression}...{@endkey}
+{@reload expression}...{@reload}
 ```
 
-Key blocks destroy and recreate their contents when the value of an expression changes.
+Reload blocks destroy and recreate their contents when the value of an expression changes.
 
 ---
 
 This is useful if you want an element to play its transition whenever a value changes.
 
 ```sv
-{@key value}
+{@reload value}
 	<div transition:fade>{value}</div>
-{@endkey}
+{@endreload}
 ```
 
 ---
@@ -410,9 +411,9 @@ This is useful if you want an element to play its transition whenever a value ch
 When used around components, this will cause them to be reinstantiated and reinitialised.
 
 ```sv
-{@key value}
+{@reload value}
 	<Component />
-{@endkey}
+{@endreload}
 ```
 
 ### {@html ...}
