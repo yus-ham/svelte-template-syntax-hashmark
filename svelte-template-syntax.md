@@ -27,8 +27,8 @@ Tambahkan preprocessor svelte di bagian setting plug-in rollup
             [/{@endawait}/gim, '{/await}'],
             [/{@key /gim, '{#key '],
             [/{@endkey}/gim, '{/key}'],
-            [/{@reload /gim, '{#key '],
-            [/{@endreload}/gim, '{/key}'],
+            [/{@changed /gim, '{#key '],
+            [/{@changed}/gim, '{/key}'],
 	]
     }),
   }),
@@ -389,11 +389,11 @@ If conversely you only want to show the error state, you can omit the `then` blo
 {@endawait}
 ```
 
-### <s>{@key ...}</s> use {@reload} instead
-### {@reload ...} alias of <s>{@key}</s>
+### <s>{@key ...}</s> use {@changed} instead
+### {@changed ...} alias of <s>{@key}</s>
 
 ```sv
-{@reload expression}...{@reload}
+{@changed expression}...{@changed}
 ```
 
 Reload blocks destroy and recreate their contents when the value of an expression changes.
@@ -403,9 +403,9 @@ Reload blocks destroy and recreate their contents when the value of an expressio
 This is useful if you want an element to play its transition whenever a value changes.
 
 ```sv
-{@reload value}
+{@changed value}
 	<div transition:fade>{value}</div>
-{@endreload}
+{@endchanged}
 ```
 
 ---
@@ -413,9 +413,9 @@ This is useful if you want an element to play its transition whenever a value ch
 When used around components, this will cause them to be reinstantiated and reinitialised.
 
 ```sv
-{@reload value}
+{@changed value}
 	<Component />
-{@endreload}
+{@endchanged}
 ```
 
 ### {@html ...}
