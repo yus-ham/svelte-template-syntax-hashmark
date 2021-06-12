@@ -28,7 +28,7 @@ Tambahkan preprocessor svelte di bagian setting plug-in rollup
             [/{@key /gim, '{#key '],
             [/{@endkey}/gim, '{/key}'],
             [/{@changed /gim, '{#key '],
-            [/{@changed}/gim, '{/key}'],
+            [/{@endchanged}/gim, '{/key}'],
 	]
     }),
   }),
