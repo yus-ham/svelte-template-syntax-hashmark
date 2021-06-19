@@ -364,7 +364,7 @@
         "2": {
           "patterns": [
             {
-              "match": "if|else\\s*if|else|endif",
+              "match": "(end)?if|else\\s*if|else",
               "name": "keyword.control.conditional.svelte"
             },
             {
@@ -372,7 +372,7 @@
               "name": "keyword.control.svelte"
             },
             {
-              "match": "await|then|catch|endawait",
+              "match": "(end)?await|then|catch",
               "name": "keyword.control.flow.svelte"
             },
             {
@@ -572,7 +572,7 @@
       ]
     },
     "special-tags-block-end": {
-      "begin": "({)\\s*((@end|/)([a-z]*))",
+      "begin": "({)\\s*((@end|/)([a-z]+))",
       "end": "(})",
       "name": "meta.special.$3.svelte meta.special.end.svelte",
       "beginCaptures": {
