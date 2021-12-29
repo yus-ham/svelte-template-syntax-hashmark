@@ -1,5 +1,5 @@
 ---
-title: Svelte Template syntax - Customized
+title: Svelte Template Syntax - Customized
 ---
 Menyeragamkan syntax dengan prefix `@` mirip [syntax blade](https://laravel.com/docs/8.x/blade) tapi masih bisa juga kalau mau memakai syntak versi svelte.
 Original documentation: https://github.com/sveltejs/svelte/blob/master/site/content/docs/02-template-syntax.md
@@ -27,7 +27,9 @@ Tambahkan preprocessor svelte di bagian setting plug-in rollup
             [/{@endawait}/gim, '{/await}'],
             [/{@key /gim, '{#key '],
             [/{@endkey}/gim, '{/key}'],
-	]
+            [/{@changed /gim, '{#key '],
+            [/{@endchanged}/gim, '{/key}'],
+		]
     }),
   }),
   // ...
@@ -390,22 +392,23 @@ Similarly, if you only want to show the error state, you can omit the `then` blo
 {@endawait}
 ```
 
-### {@key ...}
+### {@changed ...}
+### {@key ...} alias of {@changed}
 
 ```sv
-{@key expression}...{@endkey}
+{@changed expression}...{@changed}
 ```
 
-Key blocks destroy and recreate their contents when the value of an expression changes.
+`changed` blocks destroy and recreate their contents when the value of an expression changes.
 
 ---
 
 This is useful if you want an element to play its transition whenever a value changes.
 
 ```sv
-{@key value}
+{@changed value}
 	<div transition:fade>{value}</div>
-{@endkey}
+{@endchanged}
 ```
 
 ---
@@ -413,9 +416,9 @@ This is useful if you want an element to play its transition whenever a value ch
 When used around components, this will cause them to be reinstantiated and reinitialised.
 
 ```sv
-{@key value}
+{@changed value}
 	<Component />
-{@endkey}
+{@endchanged}
 ```
 
 ### {@html ...}
