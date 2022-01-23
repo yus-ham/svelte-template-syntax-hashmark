@@ -1,7 +1,7 @@
 ---
 title: Svelte Template Syntax - Customized
 ---
-Menyeragamkan syntax dengan prefix `@` mirip [syntax blade](https://laravel.com/docs/8.x/blade) tapi masih bisa juga kalau mau memakai syntak versi svelte.
+Custom syntax with prefix `#` that I think this should easy to remember. but still can use original svelte's syntax together.
 Original documentation: https://github.com/sveltejs/svelte/blob/master/site/content/docs/02-template-syntax.md
 
 
@@ -14,21 +14,23 @@ Tambahkan preprocessor svelte di bagian setting plug-in rollup
     // ...
     preprocess: preprocess({
         replace: [
-            [/{@if /gim, '{#if '],
-            [/{@else if /gim, '{:else if '],
-            [/{@elseif /gim, '{:else if '],
-            [/{@else}/gim, '{:else}'],
-            [/{@endif}/gim, '{/if}'],
-            [/{@each /gim, '{#each '],
-            [/{@endeach}/gim, '{/each}'],
-            [/{@await /gim, '{#await '],
-            [/{@then /gim, '{:then '],
-            [/{@catch /gim, '{:catch '],
-            [/{@endawait}/gim, '{/await}'],
-            [/{@key /gim, '{#key '],
-            [/{@endkey}/gim, '{/key}'],
-            [/{@changed /gim, '{#key '],
-            [/{@endchanged}/gim, '{/key}'],
+            // [/{#if /gim, '{#if '],
+            [/{#else if /gim, '{:else if '],
+            [/{#elseif /gim, '{:else if '],
+            [/{#else}/gim, '{:else}'],
+            [/{#endif}/gim, '{/if}'],
+            // [/{#each /gim, '{#each '],
+            [/{#endeach}/gim, '{/each}'],
+            // [/{#await /gim, '{#await '],
+            [/{#then /gim, '{:then '],
+            [/{#catch /gim, '{:catch '],
+            [/{#endawait}/gim, '{/await}'],
+            // [/{#key /gim, '{#key '],
+            [/{#endkey}/gim, '{/key}'],
+            [/{#renderby /gim, '{#key '],
+            [/{#endrenderby}/gim, '{/key}'],
+            [/{#debug /gim, '{@debug '],
+            [/{#html /gim, '{@html '],
         ]
     }),
   }),
@@ -200,16 +202,16 @@ Comments beginning with `svelte-ignore` disable warnings for the next block of m
 ```
 
 
-### {@if ...}
+### {#if ...}
 
 ```sv
-{@if expression}...{@endif}
+{#if expression}...{#endif}
 ```
 ```sv
-{@if expression}...{@else if expression}...{@endif}
+{#if expression}...{#else if expression}...{#endif}
 ```
 ```sv
-{@if expression}...{@else}...{@endif}
+{#if expression}...{#else}...{#endif}
 ```
 
 ---
@@ -217,42 +219,42 @@ Comments beginning with `svelte-ignore` disable warnings for the next block of m
 Content that is conditionally rendered can be wrapped in an if block.
 
 ```sv
-{@if answer === 42}
+{#if answer === 42}
 	<p>what was the question?</p>
-{@endif}
+{#endif}
 ```
 
 ---
 
-Additional conditions can be added with `{@else if expression}`, optionally ending in an `{@else}` clause.
+Additional conditions can be added with `{#else if expression}`, optionally ending in an `{#else}` clause.
 
 ```sv
-{@if porridge.temperature > 100}
+{#if porridge.temperature > 100}
 	<p>too hot!</p>
-{@else if 80 > porridge.temperature}
+{#else if 80 > porridge.temperature}
 	<p>too cold!</p>
-{@else}
+{#else}
 	<p>just right!</p>
-{@endif}
+{#endif}
 ```
 
 
-### {@each ...}
+### {#each ...}
 
 ```sv
-{@each expression as name}...{@endeach}
+{#each expression as name}...{#endeach}
 ```
 ```sv
-{@each expression as name, index}...{@endeach}
+{#each expression as name, index}...{#endeach}
 ```
 ```sv
-{@each expression as name (key)}...{@endeach}
+{#each expression as name (key)}...{#endeach}
 ```
 ```sv
-{@each expression as name, index (key)}...{@endeach}
+{#each expression as name, index (key)}...{#endeach}
 ```
 ```sv
-{@each expression as name}...{@else}...{@endeach}
+{#each expression as name}...{#else}...{#endeach}
 ```
 
 ---
@@ -262,9 +264,9 @@ Iterating over lists of values can be done with an each block.
 ```sv
 <h1>Shopping list</h1>
 <ul>
-	{@each items as item}
+	{#each items as item}
 		<li>{item.name} x {item.qty}</li>
-	{@endeach}
+	{#endeach}
 </ul>
 ```
 
@@ -275,9 +277,9 @@ You can use each blocks to iterate over any array or array-like value — that i
 An each block can also specify an *index*, equivalent to the second argument in an `array.map(...)` callback:
 
 ```sv
-{@each items as item, i}
+{#each items as item, i}
 	<li>{i + 1}: {item.name} x {item.qty}</li>
-{@endeach}
+{#endeach}
 ```
 
 ---
@@ -285,14 +287,14 @@ An each block can also specify an *index*, equivalent to the second argument in 
 If a *key* expression is provided — which must uniquely identify each list item — Svelte will use it to diff the list when data changes, rather than adding or removing items at the end. The key can be any object, but strings and numbers are recommended since they allow identity to persist when the objects themselves change.
 
 ```sv
-{@each items as item (item.id)}
+{#each items as item (item.id)}
 	<li>{item.name} x {item.qty}</li>
-{@endeach}
+{#endeach}
 
 <!-- or with additional index value -->
-{@each items as item, i (item.id)}
+{#each items as item, i (item.id)}
 	<li>{i + 1}: {item.name} x {item.qty}</li>
-{@endeach}
+{#endeach}
 ```
 
 ---
@@ -300,45 +302,45 @@ If a *key* expression is provided — which must uniquely identify each list ite
 You can freely use destructuring and rest patterns in each blocks.
 
 ```sv
-{@each items as { id, name, qty }, i (id)}
+{#each items as { id, name, qty }, i (id)}
 	<li>{i + 1}: {name} x {qty}</li>
-{@endeach}
+{#endeach}
 
-{@each objects as { id, ...rest }}
+{#each objects as { id, ...rest }}
 	<li><span>{id}</span><MyComponent {...rest}/></li>
-{@endeach}
+{#endeach}
 
-{@each items as [id, ...rest]}
+{#each items as [id, ...rest]}
 	<li><span>{id}</span><MyComponent values={rest}/></li>
-{@endeach}
+{#endeach}
 ```
 
 ---
 
-An each block can also have an `{@else}` clause, which is rendered if the list is empty.
+An each block can also have an `{#else}` clause, which is rendered if the list is empty.
 
 ```sv
-{@each todos as todo}
+{#each todos as todo}
 	<p>{todo.text}</p>
-{@else}
+{#else}
 	<p>No tasks today!</p>
-{@endeach}
+{#endeach}
 ```
 
 
-### {@await ...}
+### {#await ...}
 
 ```sv
-{@await expression}...{@then name}...{@catch name}...{@endawait}
+{#await expression}...{#then name}...{#catch name}...{#endawait}
 ```
 ```sv
-{@await expression}...{@then name}...{@endawait}
+{#await expression}...{#then name}...{#endawait}
 ```
 ```sv
-{@await expression then name}...{@endawait}
+{#await expression then name}...{#endawait}
 ```
 ```sv
-{@await expression catch name}...{@endawait}
+{#await expression catch name}...{#endawait}
 ```
 
 ---
@@ -346,16 +348,16 @@ An each block can also have an `{@else}` clause, which is rendered if the list i
 Await blocks allow you to branch on the three possible states of a Promise — pending, fulfilled or rejected. In SSR mode, only the pending state will be rendered on the server.
 
 ```sv
-{@await promise}
+{#await promise}
 	<!-- promise is pending -->
 	<p>waiting for the promise to resolve...</p>
-{@then value}
+{#then value}
 	<!-- promise was fulfilled -->
 	<p>The value is {value}</p>
-{@catch error}
+{#catch error}
 	<!-- promise was rejected -->
 	<p>Something went wrong: {error.message}</p>
-{@endawait}
+{#endawait}
 ```
 
 ---
@@ -363,13 +365,13 @@ Await blocks allow you to branch on the three possible states of a Promise — p
 The `catch` block can be omitted if you don't need to render anything when the promise rejects (or no error is possible).
 
 ```sv
-{@await promise}
+{#await promise}
 	<!-- promise is pending -->
 	<p>waiting for the promise to resolve...</p>
-{@then value}
+{#then value}
 	<!-- promise was fulfilled -->
 	<p>The value is {value}</p>
-{@endawait}
+{#endawait}
 ```
 
 ---
@@ -377,9 +379,9 @@ The `catch` block can be omitted if you don't need to render anything when the p
 If you don't care about the pending state, you can also omit the initial block.
 
 ```sv
-{@await promise then value}
+{#await promise then value}
 	<p>The value is {value}</p>
-{@endawait}
+{#endawait}
 ```
 
 ---
@@ -387,28 +389,29 @@ If you don't care about the pending state, you can also omit the initial block.
 Similarly, if you only want to show the error state, you can omit the `then` block.
 
 ```sv
-{@await promise catch error}
+{#await promise catch error}
 	<p>The error is {error}</p>
-{@endawait}
+{#endawait}
 ```
 
-### {@changed ...}
-### {@key ...} alias of {@changed}
+### {#key ...}
+### {#reloadby ...} alias of {#key}
 
 ```sv
-{@changed expression}...{@changed}
+{#key expression}...{#endkey}
+{#reloadby expression}...{#endreloadby}
 ```
 
-`changed` blocks destroy and recreate their contents when the value of an expression changes.
+`key` or `reloadby` blocks destroy and recreate their contents when the value of an expression changes.
 
 ---
 
 This is useful if you want an element to play its transition whenever a value changes.
 
 ```sv
-{@changed value}
+{#reloadby value}
 	<div transition:fade>{value}</div>
-{@endchanged}
+{#endreloadby}
 ```
 
 ---
@@ -416,45 +419,45 @@ This is useful if you want an element to play its transition whenever a value ch
 When used around components, this will cause them to be reinstantiated and reinitialised.
 
 ```sv
-{@changed value}
+{#reloadby value}
 	<Component />
-{@endchanged}
+{#endreloadby}
 ```
 
-### {@html ...}
+### {#html ...}
 
 ```sv
-{@html expression}
+{#html expression}
 ```
 
 ---
 
 In a text expression, characters like `<` and `>` are escaped; however, with HTML expressions, they're not.
 
-The expression should be valid standalone HTML — `{@html "<div>"}content{@html "</div>"}` will *not* work, because `</div>` is not valid HTML. It also will *not* compile Svelte code.
+The expression should be valid standalone HTML — `{#html "<div>"}content{#html "</div>"}` will *not* work, because `</div>` is not valid HTML. It also will *not* compile Svelte code.
 
 > Svelte does not sanitize expressions before injecting HTML. If the data comes from an untrusted source, you must sanitize it, or you are exposing your users to an XSS vulnerability.
 
 ```sv
 <div class="blog-post">
 	<h1>{post.title}</h1>
-	{@html post.content}
+	{#html post.content}
 </div>
 ```
 
 
-### {@debug ...}
+### {#debug ...}
 
 ```sv
-{@debug}
+{#debug}
 ```
 ```sv
-{@debug var1, var2, ..., varN}
+{#debug var1, var2, ..., varN}
 ```
 
 ---
 
-The `{@debug ...}` tag offers an alternative to `console.log(...)`. It logs the values of specific variables whenever they change, and pauses code execution if you have devtools open.
+The `{#debug ...}` tag offers an alternative to `console.log(...)`. It logs the values of specific variables whenever they change, and pauses code execution if you have devtools open.
 
 ```sv
 <script>
@@ -464,51 +467,51 @@ The `{@debug ...}` tag offers an alternative to `console.log(...)`. It logs the 
 	};
 </script>
 
-{@debug user}
+{#debug user}
 
 <h1>Hello {user.firstname}!</h1>
 ```
 
 ---
 
-`{@debug ...}` accepts a comma-separated list of variable names (not arbitrary expressions).
+`{#debug ...}` accepts a comma-separated list of variable names (not arbitrary expressions).
 
 ```sv
 <!-- Compiles -->
-{@debug user}
-{@debug user1, user2, user3}
+{#debug user}
+{#debug user1, user2, user3}
 
 <!-- WON'T compile -->
-{@debug user.firstname}
-{@debug myArray[0]}
-{@debug !isReady}
-{@debug typeof user === 'object'}
+{#debug user.firstname}
+{#debug myArray[0]}
+{#debug !isReady}
+{#debug typeof user === 'object'}
 ```
 
-The `{@debug}` tag without any arguments will insert a `debugger` statement that gets triggered when *any* state changes, as opposed to the specified variables.
+The `{#debug}` tag without any arguments will insert a `debugger` statement that gets triggered when *any* state changes, as opposed to the specified variables.
 
 
-### {@const ...}
+### {#const ...}
 
 ```sv
-{@const assignment}
+{#const assignment}
 ```
 
 ---
 
-The `{@const ...}` tag defines a local constant.
+The `{#const ...}` tag defines a local constant.
 
 ```sv
 <script>
   export let boxes;
 </script>
-{@each boxes as box}
-  {@const area = box.width * box.height}
+{#each boxes as box}
+  {#const area = box.width * box.height}
 	{box.width} * {box.height} = {area}
-{@endeach}
+{#endeach}
 ```
 
-`{@const}` is only allowed as direct child of `{@each}`, `{@then}`, `{@catch}`, `<Component />` or `<svelte:fragment />`.
+`{#const}` is only allowed as direct child of `{#each}`, `{#then}`, `{#catch}`, `<Component />` or `<svelte:fragment />`.
 
 
 ### Element directives
@@ -1016,11 +1019,11 @@ When a block is transitioning out, all elements inside the block, including thos
 The `transition:` directive indicates a *bidirectional* transition, which means it can be smoothly reversed while the transition is in progress.
 
 ```sv
-{@if visible}
+{#if visible}
 	<div transition:fade>
 		fades in and out
 	</div>
-{@endif}
+{#endif}
 ```
 
 > By default intro transitions will not play on first render. You can modify this behaviour by setting `intro: true` when you [create a component](/docs#run-time-client-side-component-api).
@@ -1034,11 +1037,11 @@ Like actions, transitions can have parameters.
 (The double `{{curlies}}` aren't a special syntax; this is an object literal inside an expression tag.)
 
 ```sv
-{@if visible}
+{#if visible}
 	<div transition:fade="{{ duration: 2000 }}">
 		flies in, fades out over two seconds
 	</div>
-{@endif}
+{#endif}
 ```
 
 ##### Custom transition functions
@@ -1069,11 +1072,11 @@ The function is called repeatedly *before* the transition begins, with different
 	}
 </script>
 
-{@if visible}
+{#if visible}
 	<div in:whoosh>
 		whooshes in
 	</div>
-{@endif}
+{#endif}
 ```
 
 ---
@@ -1109,11 +1112,11 @@ A custom transition function can also return a `tick` function, which is called 
 	}
 </script>
 
-{@if visible}
+{#if visible}
 	<p in:typewriter="{{ speed: 1 }}">
 		The quick brown fox jumps over the lazy dog
 	</p>
-{@endif}
+{#endif}
 ```
 
 If a transition returns a function instead of a transition object, the function will be called in the next microtask. This allows multiple transitions to coordinate, making [crossfade effects](/tutorial/deferred-transitions) possible.
@@ -1131,7 +1134,7 @@ An element with transitions will dispatch the following events in addition to an
 * `outroend`
 
 ```sv
-{@if visible}
+{#if visible}
 	<p
 		transition:fly="{{ y: 200, duration: 2000 }}"
 		on:introstart="{() => status = 'intro started'}"
@@ -1141,7 +1144,7 @@ An element with transitions will dispatch the following events in addition to an
 	>
 		Flies in and out
 	</p>
-{@endif}
+{#endif}
 ```
 
 ---
@@ -1149,8 +1152,8 @@ An element with transitions will dispatch the following events in addition to an
 Local transitions only play when the block they belong to is created or destroyed, *not* when parent blocks are created or destroyed.
 
 ```sv
-{@if x}
-	{@if y}
+{#if x}
+	{#if y}
 		<p transition:fade>
 			fades in and out when x or y change
 		</p>
@@ -1158,8 +1161,8 @@ Local transitions only play when the block they belong to is created or destroye
 		<p transition:fade|local>
 			fades in and out only when y changes
 		</p>
-	{@endif}
-{@endif}
+	{#endif}
+{#endif}
 ```
 
 
@@ -1198,11 +1201,11 @@ Similar to `transition:`, but only applies to elements entering (`in:`) or leavi
 Unlike with `transition:`, transitions applied with `in:` and `out:` are not bidirectional — an in transition will continue to 'play' alongside the out transition, rather than reversing, if the block is outroed while the transition is in progress. If an out transition is aborted, transitions will restart from scratch.
 
 ```sv
-{@if visible}
+{#if visible}
 	<div in:fly out:fade>
 		flies in, fades out
 	</div>
-{@endif}
+{#endif}
 ```
 
 
@@ -1248,9 +1251,9 @@ Animations can be used with Svelte's [built-in animation functions](/docs#run-ti
 
 ```sv
 <!-- When `list` is reordered the animation will run-->
-{@each list as item, index (item)}
+{#each list as item, index (item)}
 	<li animate:flip>{item}</li>
-{@endeach}
+{#endeach}
 ```
 
 ##### Animation Parameters
@@ -1262,9 +1265,9 @@ As with actions and transitions, animations can have parameters.
 (The double `{{curlies}}` aren't a special syntax; this is an object literal inside an expression tag.)
 
 ```sv
-{@each list as item, index (item)}
+{#each list as item, index (item)}
 	<li animate:flip="{{ delay: 500 }}">{item}</li>
-{@endeach}
+{#endeach}
 ```
 
 ##### Custom animation functions
@@ -1301,9 +1304,9 @@ The function is called repeatedly *before* the animation begins, with different 
 	}
 </script>
 
-{@each list as item, index (item)}
+{#each list as item, index (item)}
 	<div animate:whizz>{item}</div>
-{@endeach}
+{#endeach}
 ```
 
 ---
@@ -1336,9 +1339,9 @@ A custom animation function can also return a `tick` function, which is called *
 	}
 </script>
 
-{@each list as item, index (item)}
+{#each list as item, index (item)}
 	<div animate:whizz>{item}</div>
-{@endeach}
+{#endeach}
 ```
 
 ### Component directives
@@ -1559,11 +1562,11 @@ Note that explicitly passing in an empty named slot will add that slot's name to
 <!-- Card.svelte -->
 <div>
 	<slot name="title"></slot>
-	{@if $$slots.description}
+	{#if $$slots.description}
 		<!-- This <hr> and slot will render only if a slot named "description" is provided. -->
 		<hr>
 		<slot name="description"></slot>
-	{@endif}
+	{#endif}
 </div>
 
 <!-- App.svelte -->
@@ -1584,11 +1587,11 @@ The usual shorthand rules apply — `let:item` is equivalent to `let:item={item}
 ```sv
 <!-- FancyList.svelte -->
 <ul>
-	{@each items as item}
+	{#each items as item}
 		<li class="fancy">
 			<slot prop={item}></slot>
 		</li>
-	{@endeach}
+	{#endeach}
 </ul>
 
 <!-- App.svelte -->
@@ -1604,11 +1607,11 @@ Named slots can also expose values. The `let:` directive goes on the element wit
 ```sv
 <!-- FancyList.svelte -->
 <ul>
-	{@each items as item}
+	{#each items as item}
 		<li class="fancy">
 			<slot name="item" {item}></slot>
 		</li>
-	{@endeach}
+	{#endeach}
 </ul>
 
 <slot name="footer"></slot>
@@ -1634,12 +1637,12 @@ It cannot appear at the top level of your markup; it must be inside an if or eac
 	export let count;
 </script>
 
-{@if count > 0}
+{#if count > 0}
 	<p>counting down... {count}</p>
 	<svelte:self count="{count - 1}"/>
-{@else}
+{#else}
 	<p>lift-off!</p>
-{@endif}
+{#endif}
 ```
 
 ### `<svelte:component>`
