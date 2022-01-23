@@ -1,7 +1,7 @@
 ---
 title: Svelte Template Syntax - Customized
 ---
-Custom syntax with prefix `#` that I think this should easy to remember. but still can use original svelte's syntax together.
+Custom syntax with prefix `#`. This should easy to remember. but still can use original svelte's syntax together.
 Original documentation: https://github.com/sveltejs/svelte/blob/master/site/content/docs/02-template-syntax.md
 
 
@@ -14,18 +14,14 @@ Tambahkan preprocessor svelte di bagian setting plug-in rollup
     // ...
     preprocess: preprocess({
         replace: [
-            // [/{#if /gim, '{#if '],
             [/{#else if /gim, '{:else if '],
             [/{#elseif /gim, '{:else if '],
             [/{#else}/gim, '{:else}'],
             [/{#endif}/gim, '{/if}'],
-            // [/{#each /gim, '{#each '],
             [/{#endeach}/gim, '{/each}'],
-            // [/{#await /gim, '{#await '],
             [/{#then /gim, '{:then '],
             [/{#catch /gim, '{:catch '],
             [/{#endawait}/gim, '{/await}'],
-            // [/{#key /gim, '{#key '],
             [/{#endkey}/gim, '{/key}'],
             [/{#renderby /gim, '{#key '],
             [/{#endrenderby}/gim, '{/key}'],
@@ -1335,7 +1331,7 @@ A custom animation function can also return a `tick` function, which is called *
 			Object.assign(node.style, {
 				color: t > 0.5 ? 'Pink' : 'Blue'
 			});
-	};
+		};
 	}
 </script>
 
