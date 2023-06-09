@@ -1,14 +1,19 @@
----
-title: Svelte Template Syntax - Customized
----
-Custom syntax with prefix `#`. This should easy to remember. but still can use original svelte's syntax together.
+# Hashmark - Customized Svelte Template Syntax
+
+Custom svelte syntaxes using prefix `#` for control tags. This should easy to remember, but still can use original svelte's syntaxes together.
 Original documentation: https://github.com/sveltejs/svelte/blob/v3.59.1/site/content/docs/03-template-syntax.md
 
 
-### Pre-requisities:
-Tambahkan preprocessor svelte di bagian setting plug-in rollup
+## Pre-requisities:
+
+Add svelte preprocessor
+```bash
+npm i svelte-preprocess
+```
+
+Add preprocessor config to `svelte.config.js`
 ```javascript
-  import preprocess from 'svelte-preprocess'
+  import preprocess from 'svelte-preprocess';
   
   svelte({
     // ...
@@ -35,6 +40,7 @@ Tambahkan preprocessor svelte di bagian setting plug-in rollup
 ```
 
 
+## Template Syntaxes
 
 ### Tags
 
