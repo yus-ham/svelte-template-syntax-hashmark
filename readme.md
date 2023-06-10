@@ -27,7 +27,6 @@ Add preprocessor config to `svelte.config.js`
             [/{#then /gim, '{:then '],
             [/{#catch /gim, '{:catch '],
             [/{#endawait}/gim, '{/await}'],
-            [/{#endkey}/gim, '{/key}'],
             [/{#whenchg /gim, '{#key '],
             [/{#endwhenchg}/gim, '{/key}'],
             [/{#debug /gim, '{@debug '],
