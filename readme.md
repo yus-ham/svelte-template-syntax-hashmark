@@ -21,6 +21,7 @@ Add preprocessor config to `svelte.config.js`
         replace: [
             [/{#else if /gim, '{:else if '],
             [/{#elseif /gim, '{:else if '],
+            [/{#elif /gim, '{:else if '],
             [/{#else}/gim, '{:else}'],
             [/{#endif}/gim, '{/if}'],
             [/{#endeach}/gim, '{/each}'],

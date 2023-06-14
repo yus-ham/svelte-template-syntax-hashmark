@@ -380,7 +380,7 @@
       ]
     },
     "special-tags-keywords": {
-      "match": "([#@/:])(else\\s*if|[a-z]+)",
+      "match": "([#@/:])(el(se)?\\s*if|[a-z]+)",
       "captures": {
         "1": {
           "name": "punctuation.definition.keyword.svelte"
@@ -388,11 +388,11 @@
         "2": {
           "patterns": [
             {
-              "match": "(end)?if|else\\s*if|else",
+              "match": "(end)?if|el(se)?\\s*if|else",
               "name": "keyword.control.conditional.svelte"
             },
             {
-              "match": "(end)?(each|key|ifchg)",
+              "match": "(end)?(each|key|whenchg)",
               "name": "keyword.control.svelte"
             },
             {
@@ -418,7 +418,7 @@
     "special-tags-modes": {
       "patterns": [
         {
-          "begin": "(?<=(if|ifchg|key|then|catch|html).*?)\\G",
+          "begin": "(?<=(if|whenchg|key|then|catch|html).*?)\\G",
           "end": "(?=})",
           "name": "meta.embedded.expression.svelte source.ts",
           "patterns": [
@@ -574,7 +574,7 @@
       ]
     },
     "special-tags-void": {
-      "begin": "({)\\s*((?:[@:#])(else\\s*if|[a-z]+))",
+      "begin": "({)\\s*((?:[@:#])(el(se)?\\s*if|[a-z]+))",
       "beginCaptures": {
         "1": {
           "name": "punctuation.definition.block.begin.svelte"
